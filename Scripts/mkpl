@@ -1,0 +1,29 @@
+#!/usr/bin/perl -w
+
+if( @ARGV != 1) {
+	die "Usage: ./mkpl [FILE]\n";
+}
+
+#New script filename
+$NEWPL = shift;
+
+#cmds
+$PWD = `/usr/bin/pwd`;
+$PERL = `which perl`;
+$VI = "/usr/bin/vim";
+
+#cleanup
+chop $PWD;
+chop $PERL;
+
+if( -e "$NEWPL") {
+	die "$NEWPL already exists, in $PWD:$!\n";
+} else {
+	print "Attempting to creating $NEWPL\n";
+	open( NWPL, "> $PWD/$NEWPL") or die "Unable to create $PWD/$NEWPL:$!";
+	print NWPL "#!$PERL -w\n\n\n";
+	`chmod u+x $PWD/$NEWPL`;
+	print "Done...\n";
+	close(NWPL);
+	exec("$VI +3 $PWD/$NEWPL");
+}

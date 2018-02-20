@@ -1,0 +1,30 @@
+#!/usr/bin/perl -w
+
+if( @ARGV != 1) {
+	die "Usage: ./mkc [FILE]\n";
+}
+
+#New script filename
+$NEWC = shift;
+
+#cmds
+$PWD = `/usr/bin/pwd`;
+$VI = "/usr/bin/vim";
+
+#cleanup
+chop $PWD;
+
+if( -e "$NEWC") {
+	die "$NEWC already exists, in $PWD:$!\n";
+} else {
+	print "Attempting to creating $NEWC\n";
+	open( NWC, "> $PWD/$NEWC.c") or die "Unable to create $PWD/$NEWC.c:$!";
+	#writing standard includes
+	print NWC "#include<stdlib.h>\n";
+	print NWC "#include<stdio.h>\n\n";
+	#writing main
+	print NWC "int main(void)\n{\n\n\n\n}\n";
+	print "Done...\n";
+	close(NWC);
+	exec("$VI +7 $PWD/$NEWC.c");
+}
