@@ -1,0 +1,20 @@
+Python File IO
+
+Modes: r, rb, r+, rb+, w, wb, w+, wb+, a, ab, a+, ab+
+r = read
+w = write
+b = bytes/binary
+a = append
++ = both read and write
+
+Managing large files and newline
+
+-with open("log_file.txt") as infile:
+-	for line in infile:
+-		do_shit_with(line)
+
+Defining functions
+def foo(var1, defaultVar = defaultVal, *more_vars):
+	do_shit()
+
+pypy.com?
