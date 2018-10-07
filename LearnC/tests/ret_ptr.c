@@ -28,6 +28,6 @@ int main(void)
 
 char * rw(char str[]) {
 	char * c = str;
-	return &(*c);
+	return c;
 }
 	
