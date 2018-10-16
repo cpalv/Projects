@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-
+from time import strftime, sleep
+from signal import SIGINT
+import argparse
 import os
 import re
-import argparse
-from time import strftime, sleep
 
 # cleanup function, wait for child process
 # write the final timestamp, close files and exit
@@ -69,7 +69,7 @@ if childpid:
 	except KeyboardInterrupt:
 		cleanup()
 
-	os.kill(childpid, 2) # send SIGINT to child
+	os.kill(childpid, SIGINT) # send SIGINT to child
 	cleanup()
 
 
@@ -82,4 +82,12 @@ else:
 	os.dup2(f.fileno(), os.sys.stdout.fileno())
 	os.dup2(f.fileno(), os.sys.stderr.fileno())
 	f.close()
-	os.execv(path, cmd)
+
+	try:
+		os.execv(path, cmd)
+
+	except FileNotFoundError:
+		# If fping isn't available, try ping
+		cmd = ("ping", args.IP)
+		path = "/bin/ping"
+		os.execv(path, cmd)
